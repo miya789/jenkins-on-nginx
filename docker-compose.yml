@@ -1,0 +1,27 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx-container
+    build: ./nginx
+    ports:
+      - "8090:443"
+#     depends_on:
+#       - jenkins
+#     networks:
+#       - subnet
+#   jenkins:
+#     image: jenkins/jenkins:lts
+#     environment:
+#       - JENKINS_OPTS=--prefix=/jenkins #Nginxで設定するためにprefixを指定する
+#     ports:
+#       - "8000:8080"
+#     volumes:
+#       - ./jenkins/home:/var/jenkins_home
+#       - ./ws:/home/ws
+#     restart: always
+#     networks:
+#       - subnet
+# networks:
+#   subnet:
+#     external: true
+
