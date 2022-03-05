@@ -4,24 +4,28 @@ services:
     container_name: nginx-container
     build: ./nginx
     ports:
-      - "8090:443"
-#     depends_on:
-#       - jenkins
-#     networks:
-#       - subnet
-#   jenkins:
-#     image: jenkins/jenkins:lts
-#     environment:
-#       - JENKINS_OPTS=--prefix=/jenkins #Nginxで設定するためにprefixを指定する
-#     ports:
-#       - "8000:8080"
-#     volumes:
-#       - ./jenkins/home:/var/jenkins_home
-#       - ./ws:/home/ws
-#     restart: always
-#     networks:
-#       - subnet
-# networks:
-#   subnet:
-#     external: true
-
+      - "443:443"
+    depends_on:
+      - jenkins
+    networks:
+      - docker-subnet
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-container
+    environment:
+      - JAVA_OPTS=-Djava.awt.headless=true
+      # - JENKINS_LOG=/var/jenkins_home/logs/jenkins.log
+      #Nginxで設定するためにprefixを指定する
+      - "JENKINS_OPTS= \
+        --accessLoggerClassName=winstone.accesslog.SimpleAccessLogger \
+        --prefix=/jenkins \
+        --sessionTimeout=1440 \
+        --simpleAccessLogger.format=combined \
+        --simpleAccessLogger.file=/var/jenkins_home/logs/jenkins.log"
+    volumes:
+      - ./jenkins/home:/var/jenkins_home
+    restart: always
+    networks:
+      - docker-subnet
+networks:
+  docker-subnet:
