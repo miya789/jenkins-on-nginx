@@ -19,7 +19,7 @@ services:
       #Nginxで設定するためにprefixを指定する
       - "JENKINS_OPTS= \
         --accessLoggerClassName=winstone.accesslog.SimpleAccessLogger \
-        --prefix=/jenkins \
+        --prefix=/${ID} \
         --sessionTimeout=1440 \
         --simpleAccessLogger.format=combined \
         --simpleAccessLogger.file=/var/jenkins_home/logs/jenkins.log"
